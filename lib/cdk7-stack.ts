@@ -30,8 +30,8 @@ export class Cdk7Stack extends cdk.Stack {
       targets: [new cdk.aws_events_targets.LambdaFunction(testHandler)],
       schedule: Schedule.cron({
         day: "*",
-        hour: "10",
-        minute: "30",
+        hour: "11",
+        minute: "11",
         year: "*",
         month: "*",
       }),
