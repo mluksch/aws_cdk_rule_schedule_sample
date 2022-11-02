@@ -15,7 +15,7 @@ export class CodePipelineStack extends Stack {
     const pipeline = new CodePipeline(this, "rule-schedule-pipeline", {
       pipelineName: "rule-schedule-pipeline",
       synth: new CodeBuildStep("rule-schedule", {
-        commands: ["yarn install", "npx cdk synth"],
+        commands: ["yarn install", "yarn run build", "npx cdk synth"],
         input: CodePipelineSource.gitHub(
           "mluksch/aws_cdk_rule_schedule_sample",
           "master"
