@@ -23,7 +23,7 @@ export class CodePipelineStack extends Stack {
     });
 
     const staging = pipeline.addStage(new AppStage(this, "staging"));
-    staging.addPost(new ManualApprovalStep("Deploy Production"));
-    const production = pipeline.addStage(new AppStage(this, "production"));
+    // staging.addPost(new ManualApprovalStep("Deploy Production"));
+    // const production = pipeline.addStage(new AppStage(this, "production"));
   }
 }
