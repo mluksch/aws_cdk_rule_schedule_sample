@@ -12,6 +12,7 @@ export class CodePipelineStack extends Stack {
     super(parent, id);
     const pipeline = new CodePipeline(this, "rule-schedule-pipeline", {
       pipelineName: "rule-schedule-pipeline",
+      crossAccountKeys: false,
       synth: new CodeBuildStep("rule-schedule", {
         primaryOutputDirectory: "cdk.out",
         commands: ["yarn install", "yarn run build", "npx cdk synth"],
@@ -23,12 +24,7 @@ export class CodePipelineStack extends Stack {
     });
 
     // create a codepipeline for deploying a lambda
-    const staging = pipeline.addStage(
-      new AppStage(this, "staging", {
-        stageName: "staging",
-        outdir: "cdk.out"
-      })
-    );
+    const staging = pipeline.addStage(new AppStage(this, "staging"));
     // staging.addPost(new ManualApprovalStep("Deploy Production"));
     // const production = pipeline.addStage(new AppStage(this, "production"));
   }
