@@ -4,7 +4,6 @@ import {
   CodeBuildStep,
   CodePipeline,
   CodePipelineSource,
-  ManualApprovalStep,
 } from "aws-cdk-lib/pipelines";
 import { AppStage } from "./AppStage";
 
@@ -22,7 +21,11 @@ export class CodePipelineStack extends Stack {
       }),
     });
 
-    const staging = pipeline.addStage(new AppStage(this, "staging"));
+    const staging = pipeline.addStage(
+      new AppStage(this, "staging", {
+        stageName: "staging",
+      })
+    );
     // staging.addPost(new ManualApprovalStep("Deploy Production"));
     // const production = pipeline.addStage(new AppStage(this, "production"));
   }

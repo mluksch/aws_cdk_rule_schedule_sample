@@ -6,12 +6,8 @@ import * as path from "path";
 import { Architecture } from "aws-cdk-lib/aws-lambda";
 
 export class Cdk7Stack extends cdk.Stack {
-  constructor(
-    scope: Construct,
-    id: string,
-    props?: cdk.StackProps & { env: "staging" | "production" }
-  ) {
-    super(scope, id, props);
+  constructor(scope: Construct, id: string, env: string) {
+    super(scope, id);
 
     Esbuild.buildSync({
       sourcemap: true,
