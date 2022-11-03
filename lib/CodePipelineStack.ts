@@ -13,6 +13,7 @@ export class CodePipelineStack extends Stack {
     const pipeline = new CodePipeline(this, "rule-schedule-pipeline", {
       pipelineName: "rule-schedule-pipeline",
       synth: new CodeBuildStep("rule-schedule", {
+        primaryOutputDirectory: "cdk.out",
         commands: ["yarn install", "yarn run build", "npx cdk synth"],
         input: CodePipelineSource.gitHub(
           "mluksch/aws_cdk_rule_schedule_sample",
@@ -21,9 +22,11 @@ export class CodePipelineStack extends Stack {
       }),
     });
 
+    // create a codepipeline for deploying a lambda
     const staging = pipeline.addStage(
       new AppStage(this, "staging", {
         stageName: "staging",
+        outdir: "cdk.out"
       })
     );
     // staging.addPost(new ManualApprovalStep("Deploy Production"));
