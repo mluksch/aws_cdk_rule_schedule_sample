@@ -45,7 +45,7 @@ export class Cdk7Stack extends cdk.Stack {
       },
     });
     restApi.root
-      .addResource("/health")
+      .addResource("health")
       .addMethod("get", new LambdaIntegration(testHandler));
     // The code that defines your stack goes here
 
