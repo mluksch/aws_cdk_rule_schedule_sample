@@ -4,6 +4,7 @@ import { Schedule } from "aws-cdk-lib/aws-events";
 import * as Esbuild from "esbuild";
 import * as path from "path";
 import { Architecture } from "aws-cdk-lib/aws-lambda";
+import { LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
 
 export class Cdk7Stack extends cdk.Stack {
   constructor(scope: Construct, id: string, env: string) {
@@ -36,6 +37,16 @@ export class Cdk7Stack extends cdk.Stack {
         month: "*",
       }),
     });
+
+    const restApi = new cdk.aws_apigateway.RestApi(this, "test-api", {
+      restApiName: "test-api",
+      deployOptions: {
+        stageName: env,
+      },
+    });
+    restApi.root
+      .addResource("/health")
+      .addMethod("get", new LambdaIntegration(testHandler));
     // The code that defines your stack goes here
 
     // example resource
