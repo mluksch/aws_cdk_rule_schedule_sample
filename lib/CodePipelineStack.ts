@@ -6,7 +6,6 @@ import {
   CodePipelineSource,
 } from "aws-cdk-lib/pipelines";
 import { AppStage } from "./AppStage";
-import { CodeBuildAction } from "aws-cdk-lib/aws-codepipeline-actions";
 
 export class CodePipelineStack extends Stack {
   constructor(parent: Construct, id: string) {
@@ -26,7 +25,11 @@ export class CodePipelineStack extends Stack {
     });
 
     // create a codepipeline for deploying a lambda
-    const staging = pipeline.addStage(new AppStage(this, "staging"));
+    const staging = pipeline.addStage(
+      new AppStage(this, "staging", {
+        stageName: "staging",
+      })
+    );
     // staging.addPost(new ManualApprovalStep("Deploy Production"));
     // const production = pipeline.addStage(new AppStage(this, "production"));
   }
