@@ -5,7 +5,7 @@
     "cdk7": "bin/cdk7.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "echo Nothing to do",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk"
