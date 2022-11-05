@@ -14,7 +14,10 @@ export class Cdk7Stack extends cdk.Stack {
       sourcemap: true,
       bundle: true,
       outdir: path.join(__dirname, "../dist"),
-      entryPoints: [path.join(__dirname, "../src/test.ts")],
+      entryPoints: [
+        path.join(__dirname, "../src/test.ts"),
+        path.join(__dirname, "../src/test2.ts"),
+      ],
       target: "node16",
       platform: "node",
     });
@@ -36,15 +39,6 @@ export class Cdk7Stack extends cdk.Stack {
         year: "*",
         month: "*",
       }),
-    });
-
-    Esbuild.buildSync({
-      sourcemap: true,
-      bundle: true,
-      target: "node16",
-      platform: "node",
-      outdir: path.join(__dirname, "../dist"),
-      entryPoints: [path.join(__dirname, "../src/test2.ts")],
     });
 
     const gameLambda = new cdk.aws_lambda.Function(this, "game-lambda", {
