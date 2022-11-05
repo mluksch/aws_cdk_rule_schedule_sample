@@ -42,6 +42,7 @@ export class CodePipelineStack extends Stack {
     const topic = new Topic(this, "finshed", {
       topicName: "deploy-finished",
     });
+
     topic.addSubscription(
       new EmailSubscription(
         SecretValue.secretsManager("deployment-mail-adress").unsafeUnwrap()
@@ -54,7 +55,7 @@ export class CodePipelineStack extends Stack {
         },
         commands: [
           "echo $TOPIC",
-          'aws sns publish --subject "Deployment finished" --message"Deployment finished" --topic-arn "$TOPIC"',
+          'aws sns publish --subject "Deployment finished" --message "Deployment finished" --topic-arn "$TOPIC"',
         ],
       })
     );
