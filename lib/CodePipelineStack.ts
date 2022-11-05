@@ -6,6 +6,7 @@ import {
   CodePipelineSource,
 } from "aws-cdk-lib/pipelines";
 import { AppStage } from "./AppStage";
+import { Pipeline } from "aws-cdk-lib/aws-codepipeline";
 
 export class CodePipelineStack extends Stack {
   constructor(parent: Construct, id: string) {
