@@ -5,7 +5,6 @@ import * as Esbuild from "esbuild";
 import * as path from "path";
 import { Architecture, Code, Runtime } from "aws-cdk-lib/aws-lambda";
 import { LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
-import __ = require("lodash/fp/__");
 
 export class Cdk7Stack extends cdk.Stack {
   constructor(scope: Construct, id: string, env: string) {
