@@ -3,8 +3,9 @@ import { Construct } from "constructs";
 import { Schedule } from "aws-cdk-lib/aws-events";
 import * as Esbuild from "esbuild";
 import * as path from "path";
-import { Architecture } from "aws-cdk-lib/aws-lambda";
+import { Architecture, Code, Runtime } from "aws-cdk-lib/aws-lambda";
 import { LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
+import __ = require("lodash/fp/__");
 
 export class Cdk7Stack extends cdk.Stack {
   constructor(scope: Construct, id: string, env: string) {
@@ -38,6 +39,22 @@ export class Cdk7Stack extends cdk.Stack {
       }),
     });
 
+    Esbuild.buildSync({
+      sourcemap: true,
+      bundle: true,
+      target: "node16",
+      platform: "node",
+      outdir: path.join(__dirname, "../dist"),
+      entryPoints: [path.join(__dirname, "../src/test2.ts")],
+    });
+
+    const gameLambda = new cdk.aws_lambda.Function(this, "game-lambda", {
+      functionName: "game-lambda",
+      code: Code.fromAsset(path.join(__dirname, "../dist")),
+      handler: "test2.handler",
+      runtime: Runtime.NODEJS_16_X,
+    });
+
     const restApi = new cdk.aws_apigateway.RestApi(this, "test-api", {
       restApiName: "test-api",
       deployOptions: {
@@ -46,7 +63,7 @@ export class Cdk7Stack extends cdk.Stack {
     });
     restApi.root
       .addResource("health")
-      .addMethod("get", new LambdaIntegration(testHandler));
+      .addMethod("get", new LambdaIntegration(gameLambda));
     // The code that defines your stack goes here
 
     // example resource
