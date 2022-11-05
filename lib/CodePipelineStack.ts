@@ -16,7 +16,12 @@ export class CodePipelineStack extends Stack {
       selfMutation: true,
       synth: new CodeBuildStep("rule-schedule", {
         primaryOutputDirectory: "cdk.out",
-        commands: ["yarn install", "yarn run build", "npx cdk synth"],
+        commands: [
+          "yarn install",
+          "yarn run build",
+          "yarn run test",
+          "npx cdk synth",
+        ],
         input: CodePipelineSource.gitHub(
           "mluksch/aws_cdk_rule_schedule_sample",
           "master"
