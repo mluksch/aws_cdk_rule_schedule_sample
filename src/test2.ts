@@ -9,3 +9,7 @@ export const handler: APIGatewayProxyHandler = async (ev, ctx) => {
     body: _.shuffle(CHOICES)[0],
   };
 };
+
+export const generateBody = () => {
+  return _.shuffle(CHOICES)[0];
+};
