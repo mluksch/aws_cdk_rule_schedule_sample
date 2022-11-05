@@ -1,11 +1,14 @@
-import { Stack } from "aws-cdk-lib";
+import { SecretValue, Stack } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import {
   CodeBuildStep,
   CodePipeline,
   CodePipelineSource,
+  ShellStep,
 } from "aws-cdk-lib/pipelines";
 import { AppStage } from "./AppStage";
+import { Topic } from "aws-cdk-lib/aws-sns";
+import { EmailSubscription } from "aws-cdk-lib/aws-sns-subscriptions";
 
 export class CodePipelineStack extends Stack {
   constructor(parent: Construct, id: string) {
@@ -35,7 +38,29 @@ export class CodePipelineStack extends Stack {
         stageName: "staging",
       })
     );
+
+    const topic = new Topic(this, "finshed", {
+      topicName: "deploy-finished",
+    });
+    topic.addSubscription(
+      new EmailSubscription(
+        SecretValue.secretsManager("deployment-mail-adress").toString()
+      )
+    );
+    staging.addPost(
+      new ShellStep("notify", {
+        env: {
+          TOPIC: topic.topicArn,
+        },
+        commands: [
+          "echo $TOPIC",
+          'aws sns publish --subject "Deployment finished" --message"Deployment finished" --topic-arn "$TOPIC"',
+        ],
+      })
+    );
     // staging.addPost(new ManualApprovalStep("Deploy Production"));
     // const production = pipeline.addStage(new AppStage(this, "production"));
   }
 }
+
+class SnsStep extends CodeBuildStep {}
