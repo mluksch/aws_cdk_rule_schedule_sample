@@ -10,6 +10,7 @@ import { AppStage } from "./AppStage";
 export class CodePipelineStack extends Stack {
   constructor(parent: Construct, id: string) {
     super(parent, id);
+
     const pipeline = new CodePipeline(this, "rule-schedule-pipeline", {
       pipelineName: "rule-schedule-pipeline",
       crossAccountKeys: false,
