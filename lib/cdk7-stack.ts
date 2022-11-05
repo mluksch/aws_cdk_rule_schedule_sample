@@ -53,6 +53,7 @@ export class Cdk7Stack extends cdk.Stack {
       code: Code.fromAsset(path.join(__dirname, "../dist")),
       handler: "test2.handler",
       runtime: Runtime.NODEJS_16_X,
+      architecture: Architecture.X86_64,
     });
 
     const restApi = new cdk.aws_apigateway.RestApi(this, "test-api", {
