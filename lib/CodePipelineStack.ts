@@ -6,6 +6,7 @@ import {
   CodePipelineSource,
 } from "aws-cdk-lib/pipelines";
 import { AppStage } from "./AppStage";
+import { CodeBuildAction } from "aws-cdk-lib/aws-codepipeline-actions";
 
 export class CodePipelineStack extends Stack {
   constructor(parent: Construct, id: string) {
@@ -13,6 +14,7 @@ export class CodePipelineStack extends Stack {
     const pipeline = new CodePipeline(this, "rule-schedule-pipeline", {
       pipelineName: "rule-schedule-pipeline",
       crossAccountKeys: false,
+      selfMutation: true,
       synth: new CodeBuildStep("rule-schedule", {
         primaryOutputDirectory: "cdk.out",
         commands: ["yarn install", "yarn run build", "npx cdk synth"],
