@@ -44,7 +44,7 @@ export class CodePipelineStack extends Stack {
     });
     topic.addSubscription(
       new EmailSubscription(
-        SecretValue.secretsManager("deployment-mail-adress").toString()
+        SecretValue.secretsManager("deployment-mail-adress").unsafeUnwrap()
       )
     );
     staging.addPost(
